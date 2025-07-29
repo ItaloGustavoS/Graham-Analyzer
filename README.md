@@ -1,5 +1,7 @@
 # 📊 Graham Analyzer B3
 
+[![Feito com Streamlit](https://img.shields.io/badge/feito%20com-Streamlit-ff4b4b?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io)
+
 Aplicativo desenvolvido em Python com Streamlit para calcular o valor intrínseco de ações da B3 utilizando a fórmula modificada de **Benjamin Graham**.
 
 Os dados são obtidos de APIs públicas (Brapi e Banco Central), e os resultados são salvos em CSV local. Ideal para investidores que seguem a filosofia de **Value Investing**.
