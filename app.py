@@ -3,6 +3,8 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objs as go
 from utils.pdf_report import gerar_relatorio_pdf
+import os
+import time
 
 from services.brapi_api import get_dados_acao
 from services.selic_api import get_selic_atual
@@ -116,6 +118,13 @@ if ticker:
 
                     # Botão para gerar PDF
             if st.button("📄 Gerar Relatório PDF"):
+                # Create temp directory if it doesn't exist
+                if not os.path.exists("temp"):
+                    os.makedirs("temp")
+
+                chart_image_path = "temp/price_history_chart.png"
+                fig.write_image(chart_image_path)
+
                 dados_para_pdf = {
                     "Data": datetime.today().strftime("%d/%m/%Y"),
                     "Ticker": dados["ticker"],
@@ -130,7 +139,7 @@ if ticker:
                     "Dividend Yield": f"{dados['dividend_yield']}%",
                 }
 
-                caminho_pdf = gerar_relatorio_pdf(dados_para_pdf)
+                caminho_pdf = gerar_relatorio_pdf(dados_para_pdf, chart_image_path)
 
                 with open(caminho_pdf, "rb") as file:
                     st.download_button(
@@ -139,6 +148,14 @@ if ticker:
                         file_name=f"Relatorio_{dados['ticker']}.pdf",
                         mime="application/pdf",
                     )
+
+                # Clean up the generated files
+                time.sleep(5)
+                try:
+                    os.remove(caminho_pdf)
+                    os.remove(chart_image_path)
+                except OSError as e:
+                    st.error(f"Erro ao deletar os arquivos: {e}")
 
                 with st.expander("📁 Ver dados salvos"):
                     historico_csv = pd.read_csv("data/historico_consultas.csv")
