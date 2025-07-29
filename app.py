@@ -2,6 +2,7 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 import plotly.graph_objs as go
+from utils.pdf_report import gerar_relatorio_pdf
 
 from services.brapi_api import get_dados_acao
 from services.selic_api import get_selic_atual
@@ -111,6 +112,32 @@ if ticker:
                 except FileNotFoundError:
                     df_output.to_csv(
                         "data/historico_consultas.csv", mode="w", index=False
+                    )
+
+                    # Botão para gerar PDF
+            if st.button("📄 Gerar Relatório PDF"):
+                dados_para_pdf = {
+                    "Data": datetime.today().strftime("%d/%m/%Y"),
+                    "Ticker": dados["ticker"],
+                    "Nome": nome_acao,
+                    "LPA": f"R$ {lpa}",
+                    "Taxa de Crescimento": f"{g}%",
+                    "Taxa Selic": f"{selic}%",
+                    "Valor Intrínseco": f"R$ {valor_intrinseco}",
+                    "Preço Atual": f"R$ {preco_atual}",
+                    "Margem de Segurança": f"{margen}%",
+                    "P/VPA": dados["p_vpa"],
+                    "Dividend Yield": f"{dados['dividend_yield']}%",
+                }
+
+                caminho_pdf = gerar_relatorio_pdf(dados_para_pdf)
+
+                with open(caminho_pdf, "rb") as file:
+                    st.download_button(
+                        label="📥 Baixar Relatório PDF",
+                        data=file,
+                        file_name=f"Relatorio_{dados['ticker']}.pdf",
+                        mime="application/pdf",
                     )
 
                 with st.expander("📁 Ver dados salvos"):
