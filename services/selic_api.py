@@ -1,5 +1,7 @@
 import requests
+import streamlit as st
 
+@st.cache_data(ttl=3600)  # Cache por 1 hora
 def get_selic_atual():
     url = (
         "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json"
