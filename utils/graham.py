@@ -10,6 +10,8 @@ def calcular_valor_intrinseco(lpa: float, g: float, selic: float) -> float:
         growth_rate = g * 100 if abs(g) < 1 else g
 
         valor_intrinseco = (lpa * (8.5 + 2 * growth_rate) * 4.4) / selic
+        
         return round(valor_intrinseco, 2)
+      
     except Exception as e:
         raise ValueError(f"Erro ao calcular valor intrínseco: {e}") from e
