@@ -1,14 +1,13 @@
-from datetime import datetime
-import streamlit as st
-import pandas as pd
-import plotly.graph_objs as go
-from utils.pdf_report import gerar_relatorio_pdf
 import os
 import time
-
+from datetime import datetime
+import pandas as pd
+import plotly.graph_objs as go
+import streamlit as st
 from services.brapi_api import get_dados_acao
 from services.selic_api import get_selic_atual
 from utils.graham import calcular_valor_intrinseco
+from utils.pdf_report import gerar_relatorio_pdf
 from utils.validators import validar_ticker
 
 # Configuração da página
