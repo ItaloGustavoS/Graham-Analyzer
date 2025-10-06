@@ -1,7 +1,6 @@
 import unittest
 from utils.graham import calcular_valor_intrinseco
 
-
 class TestGrahamFormula(unittest.TestCase):
     def test_valor_intrinseco_padrao(self):
         # LPA = 5.0, crescimento = 6%, Selic = 10%
