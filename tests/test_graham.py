@@ -14,3 +14,8 @@ class TestGrahamFormula(unittest.TestCase):
     def test_valor_intrinseco_selic_zero(self):
         valor = calcular_valor_intrinseco(10.0, 5.0, 0.0)
         self.assertEqual(valor, 0.0)
+
+    def test_valor_intrinseco_com_g_decimal(self):
+        # Teste com taxa de crescimento em decimal
+        valor = calcular_valor_intrinseco(lpa=5.0, g=0.06, selic=10.0)
+        self.assertAlmostEqual(valor, 45.1, places=1)
