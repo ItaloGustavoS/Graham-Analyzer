@@ -53,7 +53,6 @@ def plot_history(historico):
 def export_csv(df_output, path="data/historico_consultas.csv"):
     """Export the analysis data to a CSV file."""
     try:
-        # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(path), exist_ok=True)
         df_output.to_csv(path, mode="a", header=not os.path.exists(path), index=False)
     except Exception as e:
@@ -61,34 +60,38 @@ def export_csv(df_output, path="data/historico_consultas.csv"):
 
 
 def handle_pdf_generation(dados_para_pdf, fig, tmp_dir="temp"):
-    """Generate and provide a download link for the PDF report."""
-    if fig is None:
-        st.warning("Não é possível gerar PDF sem o gráfico de histórico.")
-        return
-
+    """
+    Generate and provide a download link for the PDF report.
+    The generated files are not cleaned up immediately to prevent race conditions.
+    """
     os.makedirs(tmp_dir, exist_ok=True)
-    chart_path = os.path.join(tmp_dir, "price_history_chart.png")
-    fig.write_image(chart_path)
+    chart_path = None
+    timestamp = int(time.time())
 
-    pdf_path = gerar_relatorio_pdf(dados_para_pdf, chart_path)
+    # If a figure is available, save it to a temporary file with a unique name.
+    if fig:
+        chart_path = os.path.join(
+            tmp_dir, f"chart_{dados_para_pdf['Ticker']}_{timestamp}.png"
+        )
+        fig.write_image(chart_path)
 
+    # Generate a unique PDF name and path.
+    pdf_filename = f"Relatorio_{dados_para_pdf['Ticker']}_{timestamp}.pdf"
+    pdf_path = os.path.join(tmp_dir, pdf_filename)
+
+    # Generate the PDF, which can handle a None chart_path.
+    gerar_relatorio_pdf(
+        dados=dados_para_pdf, chart_image_path=chart_path, output_path=pdf_path
+    )
+
+    # Provide the download button.
     with open(pdf_path, "rb") as f:
         st.download_button(
-            "📥 Baixar Relatório PDF",
-            f,
-            f"Relatorio_{dados_para_pdf['Ticker']}.pdf",
-            "application/pdf",
+            label="📥 Baixar Relatório PDF",
+            data=f.read(),
+            file_name=pdf_filename,
+            mime="application/pdf",
         )
-
-    # Robust cleanup
-    time.sleep(1)  # Give a moment for the download to initiate
-    try:
-        os.remove(chart_path)
-        os.remove(pdf_path)
-    except OSError as e:
-        # This might fail if the file is still in use, which is acceptable.
-        # The temp directory will eventually be cleaned up.
-        print(f"Info: Não foi possível remover o arquivo temporário: {e}")
 
 
 def display_saved_data(path="data/historico_consultas.csv"):

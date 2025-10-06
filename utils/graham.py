@@ -1,4 +1,6 @@
-def calcular_valor_intrinseco(lpa: float, g: float, selic: float) -> float:
+from typing import Optional
+
+def calcular_valor_intrinseco(lpa: Optional[float], g: float, selic: float) -> float:
     """
     Calcula o valor intrínseco de uma ação usando a fórmula modificada de Benjamin Graham.
     """
