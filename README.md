@@ -1,32 +1,23 @@
-# 📊 Graham Analyzer B3
+# 📊 Financial Dashboard B3
 
 [![Made with Streamlit](https://img.shields.io/badge/Made%20with-Streamlit-red?style=for-the-badge&logo=streamlit)](https://streamlit.io)
 
-Aplicativo desenvolvido em Python com Streamlit para calcular o valor intrínseco de ações da B3 utilizando a fórmula modificada de **Benjamin Graham**.
+Um dashboard financeiro completo, desenvolvido em Python com Streamlit, para análise de ativos da B3 (Ações, FIIs, BDRs, ETFs).
 
-Os dados são obtidos de APIs públicas (Brapi e Banco Central), e os resultados são salvos em CSV local. Ideal para investidores que seguem a filosofia de **Value Investing**.
+Este aplicativo busca dados detalhados de ativos através da API da [Brapi.dev](https://brapi.dev/), fornecendo uma visão consolidada de cotações, indicadores fundamentalistas, perfil da empresa e histórico de preços.
 
 ---
 
 ## ✅ Funcionalidades
 
-- Busca de dados fundamentalistas via [Brapi.dev](https://brapi.dev/)
-- Recuperação automática da **taxa Selic** atual
-- Aplicação da fórmula de Benjamin Graham:
-
-  \[
-  \text{Valor Intrínseco} = \frac{LPA \times (8{,}5 + 2g) \times 4{,}4}{\text{Taxa Selic}}
-  \]
-
-- Gráfico do histórico de preços (12 meses)
-- Indicadores:
-  - LPA
-  - P/VPA
-  - Dividend Yield
-  - Margem de segurança (%)
-- Armazenamento dos resultados em CSV
-- Visualização do histórico de análises
-- Interface amigável com Streamlit
+- **Dashboard Detalhado**: Visualize informações consolidadas sobre qualquer ativo listado na B3.
+- **Perfil da Empresa**: Acesso rápido ao setor, indústria e descrição do negócio da empresa.
+- **Métricas de Mercado**: Acompanhe o preço atual, variação diária, volume de negociação e Dividend Yield.
+- **Estatísticas Fundamentalistas**: Análise de múltiplos e indicadores chave como P/L, P/VPA, ROE, ROA, Dívida Líquida, e mais.
+- **Gráfico Histórico**: Visualize o comportamento do preço do ativo nos últimos 12 meses.
+- **Análise de Graham (Condicional)**: Para ativos com Lucro Por Ação (LPA) positivo, o dashboard oferece uma análise de valor intrínseco baseada na fórmula de Benjamin Graham.
+- **Exportação para PDF**: Gere um relatório em PDF com os principais dados da análise.
+- **Histórico de Consultas**: Suas análises são salvas localmente em um arquivo CSV para referência futura.
 
 ---
 
@@ -35,8 +26,8 @@ Os dados são obtidos de APIs públicas (Brapi e Banco Central), e os resultados
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/graham-analyzer-b3.git
-cd graham-analyzer-b3
+git clone https://github.com/seu-usuario/financial-dashboard-b3.git
+cd financial-dashboard-b3
 ```
 
 ### 2. Crie um ambiente virtual
@@ -54,7 +45,7 @@ pip install -r requirements.txt
 
 ### 4. Configure as variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto e adicione a seguinte variável:
+Crie um arquivo `.env` na raiz do projeto e adicione a seguinte variável (opcional, mas recomendado para mais requisições):
 
 ```
 API_TOKEN_BRAPI="SEU_TOKEN_AQUI"
